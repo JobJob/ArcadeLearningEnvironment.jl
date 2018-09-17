@@ -36,13 +36,13 @@ setFloat(ale::ALEPtr, key::String, value::Cfloat) =
     ccall((:setFloat, libale_c), Nothing, (ALEPtr, Ptr{Cchar}, Cfloat),
         ale, key, value)
 
-function loadROM(ale::ALEPtr, rom_file::String) 
+function loadROM(ale::ALEPtr, rom_file::String)
     if isfile(rom_file)
         ccall((:loadROM, libale_c), Nothing, (ALEPtr, Ptr{Cchar}), ale, rom_file)
     elseif isfile(joinpath(@__DIR__, "..", "deps", "roms", rom_file * ".bin"))
         loadROM(ale, joinpath(@__DIR__, "..", "deps", "roms", rom_file * ".bin"))
     else
-        @error("ROM file $rom_file not found.")
+        error("ROM file $rom_file not found.")
     end
 end
 
@@ -182,4 +182,3 @@ export
     encodeState,
     encodeStateLen,
     decodeState
-
